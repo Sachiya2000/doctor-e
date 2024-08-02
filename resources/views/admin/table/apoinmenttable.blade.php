@@ -61,7 +61,7 @@
                     <a href="{{ route('user.edit', $appointment->id) }}">
                         <i class="bi bi-pencil" style="color: green"></i></a>
                     |
-                    <a href="{{ route('.delete', $appointment->id) }}" onclick="confirmDelete({{ $appointment->id }})">
+                    <a href="{{ route('doctor.appointments.delete', $appointment->id) }}" onclick="confirmDelete({{ $appointment->id }})">
                         <i class="bi bi-trash3" style="color: red"></i></a>
                 </td>
             </tr>

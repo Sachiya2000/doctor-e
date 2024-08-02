@@ -17,15 +17,15 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', [HomeController::class, 'homepage']);
 
+Route::get('/beta', function () {
+    return view('beta');
+});
 
-
-
-
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth', 'verified')->name('home');
 
 Route::get('/post', [HomeController::class, 'post'])->middleware('auth', 'admin')->name('post');
 
@@ -50,9 +50,7 @@ Route::get('/feedback', function () {
     return view('user.feedback');
 })->middleware('auth')->name('add.feedback');
 
-
-
-    Route::post('/save/services', [ServiceController::class, 'saveData'])
+Route::post('/save/services', [ServiceController::class, 'saveData'])
     ->middleware('auth', 'admin')
     ->name('save.service');
 
@@ -88,6 +86,9 @@ Route::delete('/delete/{id}/feedback', [FeedbackController::class, 'destroy'])
     ->middleware('auth', 'admin')
     ->name('delete.feedback');
 
+Route::post('/user/update-type/{user}', [HomeController::class, 'updateType'])
+    ->middleware('auth', 'admin')
+    ->name('user.updateType');
 
 Route::middleware(['auth', 'admin'])->prefix('doctor')->name('doctor.')->group(function () {
     Route::post('/save', [DoctorController::class, 'saveData'])->name('save');
@@ -99,7 +100,7 @@ Route::middleware(['auth', 'admin'])->prefix('doctor')->name('doctor.')->group(f
     Route::get('/appoinment', [AppointmentController::class, 'viewData'])->name('appoinment.view');
     Route::get('/appointments/filter', [AppointmentController::class, 'viewData'])->name('appointments.filter');
     Route::get('/appointments/filter/pdf', [AppointmentController::class, 'generatePDF'])->name('appointments.filter.pdf');
-
+    Route::get('/appointments/{id}/delete', [AppointmentController::class, 'destroy'])->name('appointments.delete');
 
 });
 
@@ -111,17 +112,12 @@ Route::middleware(['auth', 'admin'])->prefix('user')->name('user.')->group(funct
     Route::get('/admin/view', [HomeController::class, 'viewadminData'])->name('admin');
 });
 
-
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
 });
-
 
 Route::get('/checkout', 'PaymentController@checkout')->name('checkout');
 Route::post('/payment', 'PaymentController@payment')->name('payment');
@@ -131,5 +127,4 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';

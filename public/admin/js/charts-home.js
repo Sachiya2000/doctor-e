@@ -22,6 +22,7 @@ $(document).ready(function () {
                     display: true,
                     gridLines: {
                         display: false
+
                     }
                 }],
                 yAxes: [{

@@ -58,7 +58,60 @@ public function index(Request $request)
             $clientCount = User::where('usertype', 'user')->count();
             $adminCount = User::where('usertype', 'admin')->count();
             $appoinment = Appointment::count();
-            return view('admin.admindashboard',compact('doctorCount','clientCount','appoinment','adminCount'));
+            $appoinments = Appointment::select();
+
+            $users =User::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->where('usertype','user')
+            ->whereYear('created_at',date('Y'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+            $labels = [];
+            $data = [];
+            $colors = [
+                "#FF5733",
+                "#33FFB9",
+                "#334AFF",
+                "#FF3397",
+                "#B933FF",
+                "#FF7C33",
+                "#33FFA1",
+                "#33B9FF",
+                "#FF3386",
+                "#FF33B9",
+                "#B9FF33",
+                "#33FF67",
+            ];
+
+            for ($i=1; $i < 12 ; $i++) {
+                $month = date('F',mktime(0,0,0,$i,1));
+                $count = 0;
+
+                foreach ($users as $user) {
+
+                    if ($user ->month == $i) {
+                        $count = $user->count;
+                        break;
+                    }
+                }
+
+                array_push($labels,$month);
+                array_push($data,$count);
+            }
+
+            $datasets =[
+                [
+                    'label' => 'Users',
+                    'data' => $data,
+                    'backgroundcolor' => $colors,
+                ]
+                ];
+
+
+
+            return view('admin.admindashboard',compact('doctorCount','clientCount','appoinment','adminCount','datasets','labels'))
+            ->with('chart', view('admin.chart', compact('datasets', 'labels')));
 
         default:
             return redirect()->back();
@@ -71,7 +124,17 @@ public function index(Request $request)
     $response['users'] = User::where('usertype', 'user')->get();
     return view('admin.table.clienttable')->with($response);
 }
+public function updateType(Request $request, User $user)
+{
+    $request->validate([
+        'usertype' => 'required|in:user,admin',
+    ]);
 
+    $user->usertype = $request->input('usertype');
+    $user->save();
+
+    return redirect()->back()->with('success', 'User type updated successfully.');
+}
 public function viewadminData()
 {
     $response['users'] = User::where('usertype', 'admin')->get();

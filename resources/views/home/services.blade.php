@@ -1,7 +1,7 @@
 <div class="services_section layout_padding" id="service">
     <div class="container">
-       <h1 class="services_taital">Services </h1>
-       <p class="services_text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration</p>
+       <h1 class="services_taital">Our Services< </h1>
+       <p class="services_text">We offer a wide range of medical services to cater to all your health needs. From preventive care to advanced treatments, our dedicated team is here to support you every step of the way.</p>
        <div class="services_section_2">
           <div class="row justify-content-center align-items-center">
 
@@ -12,9 +12,9 @@
                 <div><img src="{{asset($service->image)}}" class="services_img"></div>
                 <div class="card-body ">
 
-                    {{-- <p class="">
+                    <p class="">
                        {{$service->description}}
-                    </p> --}}
+                    </p>
 
 
 

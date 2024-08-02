@@ -48,7 +48,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-9 offset-sm-3">
-                        <input type="submit" value="Add Doctor" class="btn btn-primary">
+                        <input type="submit" value="Add Services" class="btn btn-primary">
                     </div>
                 </div>
             </form>

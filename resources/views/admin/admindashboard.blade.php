@@ -33,25 +33,11 @@
             @include('admin.chart')
 
         </section>
-        <section class="no-padding-bottom">
-            @include('admin.anothercount')
 
-        </section>
         <section class="no-padding-bottom">
 
         </section>
-        <section class="margin-bottom-sm">
-            @include('admin.saleschart')
 
-        </section>
-        <section class="no-padding-bottom">
-            @include("admin.todolist")
-
-        </section>
-        <section>
-            @include("admin.totalcount")
-
-        </section>
         <footer class="footer">
           @include("admin.footer")
         </footer>

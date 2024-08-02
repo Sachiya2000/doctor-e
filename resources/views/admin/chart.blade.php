@@ -1,17 +1,30 @@
 <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-4">
-        <div class="bar-chart block no-margin-bottom">
-          <canvas id="barChartExample1"></canvas>
+        <div class="col-12">
+            <h1>Client Bar Chart</h1>
+            <div class="bar-chart block no-margin-bottom">
+                <canvas id="chart"></canvas>
+            </div>
         </div>
-        <div class="bar-chart block">
-          <canvas id="barChartExample2"></canvas>
-        </div>
-      </div>
-      <div class="col-lg-8">
-        <div class="line-cahrt block">
-          <canvas id="lineCahrt"></canvas>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('chart').getContext('2d');
+    var userChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($labels) !!},
+            datasets: {!! json_encode($datasets) !!}
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>

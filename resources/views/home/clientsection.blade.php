@@ -1,6 +1,6 @@
 <div class="client_section layout_padding">
     <div class="container">
-        <h1 class="client_taital">Testimonial</h1>
+        <h1 class="client_taital">Feedback</h1>
         <div class="client_section_2">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">

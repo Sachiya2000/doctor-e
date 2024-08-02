@@ -13,7 +13,7 @@ class ServiceController extends Controller
 
     public function __construct()
     {
-        $this ->services=new Service();
+        $this->services = new Service();
     }
 
     public function saveData(Request $request)
@@ -21,9 +21,8 @@ class ServiceController extends Controller
         // Validate the incoming request
         $request->validate([
 
-
             'image' => 'required|mimes:png,jpg,jpeg,webp',
-            'title'=>'required',
+            'title' => 'required',
             'description' => 'required',
 
         ]);
@@ -51,7 +50,6 @@ class ServiceController extends Controller
         return redirect()->back()->with('success', 'data saved successfully.');
     }
 
-
     public function viewData()
     {
         // Fetch all doctor records
@@ -61,57 +59,58 @@ class ServiceController extends Controller
         return view('admin.blog.services')->with($response);
     }
 
-
-    public function deleteData($id){
+    public function deleteData($id)
+    {
         $service = $this->services->find($id);
         $service->delete();
         return redirect()->back();
 
     }
 
-    public function editData($id){
+    public function editData($id)
+    {
         $response['service'] = $this->services->find($id);
         return view('admin.blog.updateservices')->with($response);
 
     }
     public function updateData(Request $request, $id)
-{
-    // Validate the incoming request
-    $request->validate([
+    {
+        // Validate the incoming request
+        $request->validate([
 
-        'image' => 'required|mimes:png,jpg,jpeg,webp',
-        'title'=>'required',
-        'description' => 'required',
-    ]);
+            'image' => 'required|mimes:png,jpg,jpeg,webp',
+            'title' => 'required',
+            'description' => 'required',
+        ]);
 
-   $service = $this->services->find($id);
+        $service = $this->services->find($id);
 
-    // Initialize request data array
-    $requestData = $request->all();
+        // Initialize request data array
+        $requestData = $request->all();
 
-    // Check if the request has a profile picture
-    if ($request->hasFile('image')) {
-        // Validate and store the new profile picture
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . '.' . $extension;
-        $path = 'uploads/img';
-        $file->move(public_path($path), $filename);
+        // Check if the request has a profile picture
+        if ($request->hasFile('image')) {
+            // Validate and store the new profile picture
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/img';
+            $file->move(public_path($path), $filename);
 
-        // Delete the old profile picture if it exists
-        if ($service->image) {
-            Storage::disk('public')->delete($service->image);
+            // Delete the old profile picture if it exists
+            if ($service->image) {
+                Storage::disk('public')->delete($service->image);
+            }
+
+            // Save the new profile picture path to the request data
+            $requestData['image'] = $path . '/' . $filename;
         }
 
-        // Save the new profile picture path to the request data
-        $requestData['image'] = $path . '/' . $filename;
+        // Update the doctor with the request data
+        $service->update($requestData);
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', ' data updated successfully.');
     }
-
-    // Update the doctor with the request data
-   $service->update($requestData);
-
-    // Redirect back with a success message
-    return redirect()->back()->with('success', ' data updated successfully.');
-}
 
 }

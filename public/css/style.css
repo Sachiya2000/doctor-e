@@ -497,14 +497,21 @@ button {
     color: #1f1f1f;
     font-weight: bold;
 }
-
+.text-h4{
+    width: 100%;
+    float: left;
+    font-size: 26px;
+    color: #1f1f1f;
+    font-weight: bold;
+    margin-top: 10px;
+}
 .about_text {
     width: 100%;
     float: left;
     font-size: 16px;
     color: #1f1f1f;
     margin: 0px;
-    padding-top: 40px;
+    padding-top: 20px;
 }
 
 .readmore_bt {
@@ -534,6 +541,7 @@ button {
 .about_img {
     width: 100%;
     float: left;
+    border-radius: 25px;
 }
 
 
@@ -546,11 +554,11 @@ button {
     width: 100%;
     float: left;
     background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  url(../images/doctors.jpg);
-    height: auto;
+    height: 80vh;
     background-repeat: no-repeat;
 
     background-size: cover;
-    background-position: center;
+
     padding-bottom: 345px;
     padding-top: 200px;
 }
